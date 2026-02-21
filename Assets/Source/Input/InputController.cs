@@ -1,23 +1,16 @@
-using System;
+using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class InputController : MonoBehaviour
 {
-    private static InputController _instance;
-
-    private PlayerInput _input;
-
-    public static float3 MovingDirection { get; private set; }
-    public static float2 LookingDelta { get; private set; }
+    private PlayerInputActions _input;
+    private Entity _inputEntity;
 
     private void Awake()
     {
-        if (_instance != null && _instance != this)
-            Destroy(_instance.gameObject);
-
-        _instance = this;
+        var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+        _inputEntity = entityManager.CreateSingleton<PlayerInput>();
 
         _input = new();
     }
@@ -25,34 +18,26 @@ public class InputController : MonoBehaviour
     private void OnEnable()
     {
         _input.Enable();
-
-        _input.Player.Move.performed += OnMovePerformed;
-        _input.Player.Move.canceled += OnMovePerformed;
-
-        _input.Player.Look.performed += OnLookPerformed;
-        _input.Player.Look.canceled += OnLookPerformed;
     }
 
     private void OnDisable()
     {
-        _input.Player.Move.performed -= OnMovePerformed;
-        _input.Player.Move.canceled -= OnMovePerformed;
-
-        _input.Player.Look.performed -= OnLookPerformed;
-        _input.Player.Look.canceled -= OnLookPerformed;
-
         _input.Disable();
     }
 
-    private void OnMovePerformed(InputAction.CallbackContext context)
+    private void Update()
     {
-        var direction = context.ReadValue<Vector2>();
-        MovingDirection = new(direction.x, 0f, direction.y);
-    }
+        float2 movingDirection = _input.Player.Move.ReadValue<Vector2>();
+        float2 lookingDelta = _input.Player.Look.ReadValue<Vector2>();
+        bool hasJumped = _input.Player.Jump.WasPressedThisFrame();
 
-    private void OnLookPerformed(InputAction.CallbackContext context)
-    {
-        var lookingDelta = context.ReadValue<Vector2>();
-        LookingDelta = new float2(lookingDelta.x, lookingDelta.y);
+        var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+
+        entityManager.SetComponentData(_inputEntity, new PlayerInput()
+        {
+            MovingDirection = new(movingDirection.x, 0f, movingDirection.y),
+            LookingDelta = new float2(lookingDelta.x, lookingDelta.y),
+            HasJumped = hasJumped,
+        });
     }
 }

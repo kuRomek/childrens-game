@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22f3a5ba6f214e43583d34c263b946e5, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: Assembly-CSharp::PlayerConfig
-  <DefaultSpeed>k__BackingField: 3
-  <MouseSensitivity>k__BackingField: 0.25
+  <Data>k__BackingField:
+    DefaultSpeed: 3
+    MouseSensitivity: 0.3
+    JumpForce: 7
