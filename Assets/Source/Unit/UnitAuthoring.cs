@@ -1,13 +1,61 @@
 using Unity.Entities;
+using Unity.Mathematics;
+using Unity.Physics;
+using Unity.Physics.Authoring;
 using UnityEngine;
 
-public class UnitAuthoring : MonoBehaviour { }
+[RequireComponent(typeof(PhysicsShapeAuthoring), typeof(PhysicsBodyAuthoring))]
+public class UnitAuthoring : MonoBehaviour
+{
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        UnityEditor.EditorApplication.delayCall += InitializeComponents;
+    }
+
+    private void InitializeComponents()
+    {
+        UnityEditor.EditorApplication.delayCall -= InitializeComponents;
+
+        var face = GetComponentInChildren<UnitFaceAuthoring>();
+
+        if (face == null)
+        {
+            var faceObject = new GameObject("Face", typeof(UnitFaceAuthoring));
+            faceObject.transform.SetParent(transform);
+            faceObject.transform.localPosition = Vector3.up * 1.2f;
+        }
+
+        GetComponent<PhysicsShapeAuthoring>().SetCapsule(new CapsuleGeometryAuthoring()
+        {
+            Orientation = quaternion.EulerXYZ(math.radians(new float3(90f, 0f, 0f))),
+            Center = new float3(0f, 0.7f, 0f),
+            Height = 1.4f,
+            Radius = 0.3f
+        });
+
+        GetComponent<PhysicsBodyAuthoring>().GravityFactor = 3f;
+    }
+#endif
+}
 
 public class UnitBaker : Baker<UnitAuthoring>
 {
     public override void Bake(UnitAuthoring authoring)
     {
         Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-        AddComponent(entity, new Moving());
+
+        UnitFaceAuthoring faceAuthoring = GetComponentInChildren<UnitFaceAuthoring>();
+        Entity faceEntity = GetEntity(faceAuthoring.gameObject, TransformUsageFlags.Dynamic);
+
+        AddComponent(entity, new Moving()
+        {
+            FaceEntity = faceEntity,
+            DefaultSpeed = Configs.Test.DefaultSpeed,
+            Direction = default,
+            LookingDelta = default,
+            VerticalRotation = faceAuthoring.transform.localEulerAngles.x,
+            Sprinting = false,
+        });
     }
 }

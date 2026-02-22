@@ -6,4 +6,5 @@ public struct PlayerInput : IComponentData
     public float3 MovingDirection;
     public float2 LookingDelta;
     public bool HasJumped;
+    public bool Sprinting;
 }

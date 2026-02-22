@@ -8,7 +8,7 @@ namespace Unity.Physics.Authoring
     [CreateAssetMenu(menuName = "Unity Physics/Physics Category Names", fileName = "Physics Category Names", order = 507)]
     public sealed class PhysicsCategoryNames : ScriptableObject, ITagNames
     {
-        PhysicsCategoryNames() {}
+        PhysicsCategoryNames() { }
 
         IReadOnlyList<string> ITagNames.TagNames => CategoryNames;
 

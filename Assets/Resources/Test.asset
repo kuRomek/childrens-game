@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22f3a5ba6f214e43583d34c263b946e5, type: 3}
-  m_Name: Player
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerConfig
+  m_Script: {fileID: 11500000, guid: 2810059dae9b1595f9c75bacf7dbb431, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: Assembly-CSharp::TestConfigScriptable
   <Data>k__BackingField:
-    DefaultSpeed: 3
+    DefaultSpeed: 5.03
     MouseSensitivity: 0.3
     JumpForce: 12

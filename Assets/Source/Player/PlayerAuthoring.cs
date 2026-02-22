@@ -1,14 +1,14 @@
 using Unity.Entities;
 using UnityEngine;
 
-public class PlayerAuthoring : UnitAuthoring { }
+[RequireComponent(typeof(UnitAuthoring), typeof(JumperAuthoring))]
+public class PlayerAuthoring : MonoBehaviour { }
 
 public class PlayerBaker : Baker<PlayerAuthoring>
 {
     public override void Bake(PlayerAuthoring authoring)
     {
         Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-        AddComponent(entity, new Moving());
         AddComponent(entity, new Player() { Entity = entity });
     }
 }

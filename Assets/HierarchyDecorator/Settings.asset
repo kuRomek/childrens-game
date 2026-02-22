@@ -217,7 +217,7 @@ MonoBehaviour:
       - fontColour: {r: 1, g: 1, b: 1, a: 1}
         backgroundColour: {r: 0.38568, g: 0.6335747, b: 0.764151, a: 1}
       - fontColour: {r: 1, g: 1, b: 1, a: 1}
-        backgroundColour: {r: 0.2671325, g: 0.4473481, b: 0.6509434, a: 1}
+        backgroundColour: {r: 0.30987227, g: 0.25511748, b: 0.3679245, a: 1}
       style:
         m_Name: Mini Header (Centered)
         m_Normal:
@@ -4182,31 +4182,44 @@ MonoBehaviour:
         isBuiltIn: 0
         script: {fileID: 11500000, guid: 606dc19cbb00383e98f6aed473521757, type: 3}
         hasToggle: 1
-      - displayName: PlayerAuthorizer
-        name: PlayerAuthorizer, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      - displayName: PlayerAuthoring
+        name: PlayerAuthoring, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         content:
-          m_Text: PlayerAuthorizer
+          m_Text: PlayerAuthoring
           m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
-          m_Tooltip: PlayerAuthorizer
-          m_TextWithWhitespace: "PlayerAuthorizer\u200B"
+          m_Tooltip: PlayerAuthoring
+          m_TextWithWhitespace: "PlayerAuthoring\u200B"
         shown: 0
         excluded: 0
         isBuiltIn: 0
         script: {fileID: 11500000, guid: 1629e5de2401b57afab79894f6f97b45, type: 3}
         hasToggle: 1
-      - displayName: JumperAuthorizer
-        name: JumperAuthorizer, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      - displayName: JumperAuthoring
+        name: JumperAuthoring, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         content:
-          m_Text: JumperAuthorizer
+          m_Text: JumperAuthoring
           m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
-          m_Tooltip: JumperAuthorizer
-          m_TextWithWhitespace: "JumperAuthorizer\u200B"
+          m_Tooltip: JumperAuthoring
+          m_TextWithWhitespace: "JumperAuthoring\u200B"
         shown: 0
         excluded: 0
         isBuiltIn: 0
         script: {fileID: 11500000, guid: be54ba8e083cc377b86dd7c068123ac2, type: 3}
+        hasToggle: 1
+      - displayName: GroundAuthoring
+        name: GroundAuthoring, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: GroundAuthoring
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: GroundAuthoring
+          m_TextWithWhitespace: "GroundAuthoring\u200B"
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 117b262f179fd6afca91d2c428285a37, type: 3}
         hasToggle: 1
     unityVersion: 6000.3.8f1
     unityCount: 294
