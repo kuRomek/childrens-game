@@ -6,7 +6,6 @@ using Unity.Physics.Systems;
 
 [UpdateInGroup(typeof(PhysicsSystemGroup))]
 [UpdateAfter(typeof(PhysicsSimulationGroup))]
-// We are updating after `PhysicsSimulationGroup` - this means that we will get the events of the current frame.
 partial struct GroundDetectionSystem : ISystem
 {
     private NativeParallelHashSet<GroundInteractionPair> _previousFrame;

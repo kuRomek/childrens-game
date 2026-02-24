@@ -8,5 +8,6 @@ public class ConfigsInitializer : MonoBehaviour
         EntityManager em = World.DefaultGameObjectInjectionWorld.EntityManager;
 
         em.SetComponentData(em.CreateSingleton<PlayerConfig>(), Configs.Player);
+        em.SetComponentData(em.CreateSingleton<TestConfig>(), Configs.Test);
     }
 }

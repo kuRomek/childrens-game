@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22f3a5ba6f214e43583d34c263b946e5, type: 3}
-  m_Name: Player
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerConfig
+  m_Script: {fileID: 11500000, guid: 77d5e7c2f0c5bbc1fac15a4510bb8ac1, type: 3}
+  m_Name: Health
+  m_EditorClassIdentifier: Assembly-CSharp::HealthConfigScriptable
   <Data>k__BackingField:
-    DefaultSpeed: 5
-    MouseSensitivity: 0.3
-    JumpForce: 12
+    HealthBarPrefab: {fileID: 8846963198181616559, guid: 90b26989a3dca4ad6b96ce556e79c1e6, type: 3}

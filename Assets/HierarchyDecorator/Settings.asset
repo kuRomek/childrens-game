@@ -4221,5 +4221,55 @@ MonoBehaviour:
         isBuiltIn: 0
         script: {fileID: 11500000, guid: 117b262f179fd6afca91d2c428285a37, type: 3}
         hasToggle: 1
+      - displayName: DebugVisual
+        name: DebugVisual, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: DebugVisual
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: DebugVisual
+          m_TextWithWhitespace: "DebugVisual\u200B"
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 65e67201bd4b096d0b282bc9695e77c1, type: 3}
+        hasToggle: 1
+      - displayName: UnitAuthoring
+        name: UnitAuthoring, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: UnitAuthoring
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: UnitAuthoring
+          m_TextWithWhitespace: "UnitAuthoring\u200B"
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 227158814bcf6550b9335b9c0b82a51a, type: 3}
+        hasToggle: 1
+      - displayName: HealthAuthoring
+        name: HealthAuthoring, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: HealthAuthoring
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: HealthAuthoring
+          m_TextWithWhitespace: "HealthAuthoring\u200B"
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: f124a2c05791f87a69ae823fc475233f, type: 3}
+        hasToggle: 1
+      - displayName: HealthViewAuthoring
+        name: HealthViewAuthoring, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: HealthViewAuthoring
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: HealthViewAuthoring
+          m_TextWithWhitespace: "HealthViewAuthoring\u200B"
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: d7e05f6a0aecb39e7a20c2cd02a4f765, type: 3}
+        hasToggle: 1
     unityVersion: 6000.3.8f1
     unityCount: 294

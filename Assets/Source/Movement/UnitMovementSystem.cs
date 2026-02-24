@@ -2,24 +2,25 @@ using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
-using Unity.Physics.Systems;
 using Unity.Transforms;
 
+[UpdateAfter(typeof(PlayerMovingInputHandleSystem))]
 partial struct UnitMovementSystem : ISystem
 {
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        foreach (var (transform, moving) in SystemAPI.Query<RefRW<LocalTransform>, RefRW<Moving>>())
+        foreach (var (transform, moving, velocity) in SystemAPI.Query<RefRW<LocalTransform>, RefRW<Moving>, RefRW<PhysicsVelocity>>())
         {
             float3 direction =
                 transform.ValueRO.Right() * moving.ValueRO.Direction.x +
                 transform.ValueRO.Forward() * moving.ValueRO.Direction.y;
 
-            direction *= SystemAPI.Time.DeltaTime * moving.ValueRO.DefaultSpeed * (moving.ValueRO.Sprinting ? 2f : 1f);
+            direction *= moving.ValueRO.DefaultSpeed * (moving.ValueRO.Sprinting ? 2f : 1f) /** SystemAPI.Time.DeltaTime*/;
             float2 lookingDelta = moving.ValueRO.LookingDelta * SystemAPI.Time.DeltaTime;
 
-            transform.ValueRW.Position += direction;
+            velocity.ValueRW.Linear = new float3(direction.x, velocity.ValueRO.Linear.y, direction.z);
+
             transform.ValueRW.Rotation = transform.ValueRW.RotateY(lookingDelta.x).Rotation;
             moving.ValueRW.VerticalRotation = math.clamp(moving.ValueRO.VerticalRotation - lookingDelta.y, -math.PIHALF, math.PIHALF);
 

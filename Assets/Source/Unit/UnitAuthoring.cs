@@ -1,6 +1,5 @@
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Physics;
 using Unity.Physics.Authoring;
 using UnityEngine;
 
@@ -34,7 +33,14 @@ public class UnitAuthoring : MonoBehaviour
             Radius = 0.3f
         });
 
-        GetComponent<PhysicsBodyAuthoring>().GravityFactor = 3f;
+        PhysicsBodyAuthoring physicsBody = GetComponent<PhysicsBodyAuthoring>();
+
+        physicsBody.GravityFactor = 3f;
+        physicsBody.Smoothing = BodySmoothing.Interpolation;
+        physicsBody.OverrideDefaultMassDistribution = true;
+        var massDistribution = physicsBody.CustomMassDistribution;
+        massDistribution.InertiaTensor = new float3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+        physicsBody.CustomMassDistribution = massDistribution;
     }
 #endif
 }
