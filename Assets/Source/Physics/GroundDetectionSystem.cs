@@ -36,11 +36,11 @@ partial struct GroundDetectionSystem : ISystem
         state.Dependency.Complete();
 
         foreach (GroundInteractionPair groundInteractionPair in _currentFrame)
-            SystemAPI.GetComponentRW<Jumper>(groundInteractionPair.JumperEntity).ValueRW.IsGrounded = true;
+            SystemAPI.GetComponentRW<Moving>(groundInteractionPair.JumperEntity).ValueRW.IsGrounded = true;
 
         foreach (GroundInteractionPair groundInteractionPair in _previousFrame)
         {
-            SystemAPI.GetComponentRW<Jumper>(groundInteractionPair.JumperEntity).ValueRW.IsGrounded =
+            SystemAPI.GetComponentRW<Moving>(groundInteractionPair.JumperEntity).ValueRW.IsGrounded =
                 _currentFrame.Contains(groundInteractionPair);
         }
 

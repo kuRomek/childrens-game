@@ -10,6 +10,16 @@ partial struct HealthSystem : ISystem
     {
         var entityCommandBuffer = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
 
+        ApplyDamage(ref state, ref entityCommandBuffer);
+        UpdateHealthBarRotation(ref state);
+
+        entityCommandBuffer.Playback(state.EntityManager);
+        entityCommandBuffer.Dispose();
+    }
+
+    [BurstCompile]
+    private void ApplyDamage(ref SystemState state, ref EntityCommandBuffer entityCommandBuffer)
+    {
         foreach (var (damage, entity) in SystemAPI.Query<RefRO<Damage>>().WithEntityAccess())
         {
             if (SystemAPI.HasComponent<Health>(damage.ValueRO.SubjectEntity))
@@ -18,30 +28,48 @@ partial struct HealthSystem : ISystem
                 health.ValueRW.Current = math.clamp(health.ValueRO.Current - damage.ValueRO.Amount, 0f, health.ValueRO.Max);
 
                 if (health.ValueRO.BarEntity != Entity.Null)
-                    UpdateBar(ref state, (RefRO<Health>)health, ref entityCommandBuffer);
+                {
+                    UpdateBar(ref state, health.ValueRO.BarEntity,
+                        float4x4.Scale(health.ValueRO.Current / health.ValueRO.Max, 0.1f, 1f), ref entityCommandBuffer);
+                }
             }
 
             entityCommandBuffer.DestroyEntity(entity);
         }
-
-        entityCommandBuffer.Playback(state.EntityManager);
-        entityCommandBuffer.Dispose();
     }
 
     [BurstCompile]
-    private void UpdateBar(ref SystemState state, RefRO<Health> health, ref EntityCommandBuffer entityCommandBuffer)
+    private void UpdateHealthBarRotation(ref SystemState state)
     {
-        if (SystemAPI.HasComponent<PostTransformMatrix>(health.ValueRO.BarEntity))
+        Entity playerEntity = SystemAPI.GetSingleton<Player>().Entity;
+        RefRO<LocalToWorld> faceTransform = SystemAPI.GetComponentRO<LocalToWorld>(
+            SystemAPI.GetComponentRO<Moving>(playerEntity).ValueRO.FaceEntity);
+
+        foreach (var (health, parentLtw) in SystemAPI.Query<RefRO<Health>, RefRO<LocalToWorld>>())
         {
-            SystemAPI.GetComponentRW<PostTransformMatrix>(health.ValueRO.BarEntity).ValueRW.Value =
-                float4x4.Scale(health.ValueRO.Current / health.ValueRO.Max, 0.1f, 1f);
-        }
-        else
-        {
-            entityCommandBuffer.AddComponent(health.ValueRO.BarEntity, new PostTransformMatrix()
+            Entity barEntity = health.ValueRO.BarEntity;
+
+            if (barEntity != Entity.Null)
             {
-                Value = float4x4.Scale(health.ValueRO.Current / health.ValueRO.Max, 0.1f, 1f),
-            });
+                RefRW<LocalTransform> barLocalTransform = SystemAPI.GetComponentRW<LocalTransform>(barEntity);
+                RefRO<LocalToWorld> barLtw = SystemAPI.GetComponentRO<LocalToWorld>(barEntity);
+
+                float3 dir = math.normalizesafe(faceTransform.ValueRO.Position - barLtw.ValueRO.Position);
+
+                quaternion worldRot = quaternion.LookRotationSafe(dir, math.up());
+
+                barLocalTransform.ValueRW.Rotation =
+                    math.mul(math.inverse(parentLtw.ValueRO.Rotation), worldRot);
+            }
         }
+    }
+
+    [BurstCompile]
+    private void UpdateBar(ref SystemState state, Entity entity, float4x4 transform, ref EntityCommandBuffer entityCommandBuffer)
+    {
+        if (SystemAPI.HasComponent<PostTransformMatrix>(entity))
+            SystemAPI.GetComponentRW<PostTransformMatrix>(entity).ValueRW.Value = transform;
+        else
+            entityCommandBuffer.AddComponent(entity, new PostTransformMatrix() { Value = transform });
     }
 }

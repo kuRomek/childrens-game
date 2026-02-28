@@ -45,7 +45,7 @@ public class JumperBaker : Baker<JumperAuthoring>
 
         AddComponent(entity, new Jumper()
         {
-            IsGrounded = true,
+            VelocityAtJump = default,
             ReadyToJump = false,
             JumpForce = Configs.Test.JumpForce,
         });

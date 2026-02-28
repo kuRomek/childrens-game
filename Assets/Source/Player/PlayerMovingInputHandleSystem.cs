@@ -24,8 +24,10 @@ partial struct PlayerMovingInputHandleSystem : ISystem
 
         playerMoving.ValueRW.Direction = new float2(input.MovingDirection.x, input.MovingDirection.z);
         playerMoving.ValueRW.LookingDelta = lookingDelta;
-        playerMoving.ValueRW.Sprinting = input.Sprinting;
 
-        playerJumper.ValueRW.ReadyToJump |= input.HasJumped && playerJumper.ValueRO.IsGrounded;
+        if (playerMoving.ValueRO.IsGrounded)
+            playerMoving.ValueRW.Sprinting = input.Sprinting;
+
+        playerJumper.ValueRW.ReadyToJump |= input.HasJumped && playerMoving.ValueRO.IsGrounded;
     }
 }

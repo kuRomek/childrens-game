@@ -179,8 +179,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebugVisual
   _damageAmount: 43
-  _entityId: 113
-  _healthBarsShown: 0
+  _entityId: 110
+  _healthBarsShown: 1
 --- !u!114 &64139633
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,4 +9,5 @@ public struct Moving : IComponentData
     public float VerticalRotation;
     public float DefaultSpeed;
     public bool Sprinting;
+    public bool IsGrounded;
 }

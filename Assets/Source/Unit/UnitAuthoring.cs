@@ -3,7 +3,7 @@ using Unity.Mathematics;
 using Unity.Physics.Authoring;
 using UnityEngine;
 
-[RequireComponent(typeof(PhysicsShapeAuthoring), typeof(PhysicsBodyAuthoring))]
+[RequireComponent(typeof(PhysicsShapeAuthoring), typeof(PhysicsBodyAuthoring), typeof(HealthAuthoring))]
 public class UnitAuthoring : MonoBehaviour
 {
 #if UNITY_EDITOR
@@ -23,6 +23,7 @@ public class UnitAuthoring : MonoBehaviour
             var faceObject = new GameObject("Face", typeof(UnitFaceAuthoring));
             faceObject.transform.SetParent(transform);
             faceObject.transform.localPosition = Vector3.up * 1.2f;
+            faceObject.transform.rotation = default;
         }
 
         GetComponent<PhysicsShapeAuthoring>().SetCapsule(new CapsuleGeometryAuthoring()
@@ -51,8 +52,12 @@ public class UnitBaker : Baker<UnitAuthoring>
     {
         Entity entity = GetEntity(TransformUsageFlags.Dynamic);
 
+        Entity faceEntity = Entity.Null;
+
         UnitFaceAuthoring faceAuthoring = GetComponentInChildren<UnitFaceAuthoring>();
-        Entity faceEntity = GetEntity(faceAuthoring.gameObject, TransformUsageFlags.Dynamic);
+
+        if (faceAuthoring != null)
+            faceEntity = GetEntity(faceAuthoring.gameObject, TransformUsageFlags.Dynamic);
 
         AddComponent(entity, new Moving()
         {
@@ -62,6 +67,7 @@ public class UnitBaker : Baker<UnitAuthoring>
             LookingDelta = default,
             VerticalRotation = faceAuthoring.transform.localEulerAngles.x,
             Sprinting = false,
+            IsGrounded = true,
         });
     }
 }
