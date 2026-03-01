@@ -9,7 +9,8 @@ public class UnitAuthoring : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        UnityEditor.EditorApplication.delayCall += InitializeComponents;
+        if (gameObject.scene.IsValid())
+            UnityEditor.EditorApplication.delayCall += InitializeComponents;
     }
 
     private void InitializeComponents()

@@ -9,6 +9,9 @@ public class JumperAuthoring : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
+        if (gameObject.scene.IsValid() == false)
+            return;
+
         var collidersAuthoring = GetComponentsInChildren<PhysicsShapeAuthoring>().Where(
                 collider => collider.gameObject != gameObject &&
                 collider.CollisionResponse == CollisionResponsePolicy.RaiseTriggerEvents);

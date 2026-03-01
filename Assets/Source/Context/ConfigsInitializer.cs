@@ -9,5 +9,7 @@ public class ConfigsInitializer : MonoBehaviour
 
         em.SetComponentData(em.CreateSingleton<PlayerConfig>(), Configs.Player);
         em.SetComponentData(em.CreateSingleton<TestConfig>(), Configs.Test);
+        //em.SetComponentData(em.CreateSingleton<HealthConfig>(), Configs.Health);
+        em.SetComponentData(em.CreateSingleton<SpawningConfig>(), Configs.Spawning);
     }
 }

@@ -12,7 +12,8 @@ public class HealthAuthoring : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        EditorApplication.delayCall += InitializeComponents;
+        if (gameObject.scene.IsValid())
+            EditorApplication.delayCall += InitializeComponents;
     }
 
     private void InitializeComponents()

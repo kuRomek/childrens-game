@@ -8,11 +8,14 @@ public class GroundAuthoring : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        UnityEditor.EditorApplication.delayCall += InitializeComponents;
+        if (gameObject.scene.IsValid())
+            UnityEditor.EditorApplication.delayCall += InitializeComponents;
     }
 
     private void InitializeComponents()
     {
+        UnityEditor.EditorApplication.delayCall -= InitializeComponents;
+
         GetComponent<PhysicsBodyAuthoring>().MotionType = BodyMotionType.Static;
     }
 #endif

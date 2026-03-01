@@ -27,9 +27,10 @@ partial struct UnitMovementSystem : ISystem
             }
 
             direction *= moving.ValueRO.DefaultSpeed * (moving.ValueRO.Sprinting ? 2f : 1f);
-            float2 lookingDelta = moving.ValueRO.LookingDelta * SystemAPI.Time.DeltaTime;
 
             velocity.ValueRW.Linear = new float3(direction.x, velocity.ValueRO.Linear.y, direction.z);
+
+            float2 lookingDelta = moving.ValueRO.LookingDelta * SystemAPI.Time.DeltaTime;
 
             transform.ValueRW.Rotation = transform.ValueRW.RotateY(lookingDelta.x).Rotation;
             moving.ValueRW.VerticalRotation = math.clamp(

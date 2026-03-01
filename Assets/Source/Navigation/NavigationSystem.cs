@@ -3,31 +3,29 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
-partial struct EnemyNavigationSystem : ISystem
+partial struct NavigationSystem : ISystem
 {
     private const float DistanceToleranceSq = 0.01f;
-    private const float RotationSmoothness = 1f;
+    private const float RotationSmoothness = 5f;
 
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        foreach (var (enemyNavigation, moving, transform) in
-            SystemAPI.Query<RefRW<EnemyNavigation>, RefRW<Moving>, RefRW<LocalTransform>>())
+        foreach (var (navigation, moving, transform) in
+            SystemAPI.Query<RefRW<Navigation>, RefRW<Moving>, RefRW<LocalTransform>>())
         {
             RefRO<LocalToWorld> faceLtw = SystemAPI.GetComponentRO<LocalToWorld>(moving.ValueRO.FaceEntity);
-            moving.ValueRW.LookingDelta = GetRotation(transform, faceLtw, enemyNavigation.ValueRO.CurrentTarget);
+            RefRO<LocalTransform> faceLt = SystemAPI.GetComponentRO<LocalTransform>(moving.ValueRO.FaceEntity);
+            float3 liftedTarget = navigation.ValueRO.Target + new float3(0f, faceLt.ValueRO.Position.y, 0f);
+            moving.ValueRW.LookingDelta = GetRotation(transform, faceLtw, liftedTarget);
 
-            float3 directionRaw = enemyNavigation.ValueRO.CurrentTarget - transform.ValueRO.Position;
+            float3 directionRaw = navigation.ValueRO.Target - transform.ValueRO.Position;
             float distanceToTarget = math.lengthsq(directionRaw);
 
             if (distanceToTarget > DistanceToleranceSq)
-            {
                 moving.ValueRW.Direction = new float2(0f, 1f);
-            }
             else
-            {
                 moving.ValueRW.Direction = default;
-            }
         }
     }
 

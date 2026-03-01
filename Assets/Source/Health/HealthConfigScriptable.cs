@@ -1,4 +1,5 @@
 using System;
+using Unity.Entities;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Health", menuName = "Configs/Health")]
