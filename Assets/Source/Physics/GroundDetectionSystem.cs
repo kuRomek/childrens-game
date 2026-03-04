@@ -61,6 +61,7 @@ partial struct GroundDetectionSystem : ISystem
     public partial struct GroundTouchingEvent : ITriggerEventsJob
     {
         public NativeParallelHashSet<GroundInteractionPair>.ParallelWriter CurrentFrame;
+
         [ReadOnly] public ComponentLookup<Ground> LookupGround;
         [ReadOnly] public ComponentLookup<Jumper> LookupJumper;
 

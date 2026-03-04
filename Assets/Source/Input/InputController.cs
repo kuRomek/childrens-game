@@ -31,6 +31,7 @@ public class InputController : MonoBehaviour
         float2 lookingDelta = _input.Player.Look.ReadValue<Vector2>();
         bool hasJumped = _input.Player.Jump.WasPressedThisFrame();
         bool sprinting = _input.Player.Sprint.IsPressed();
+        bool shooting = _input.Player.Attack.IsPressed();
 
         var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
@@ -39,7 +40,8 @@ public class InputController : MonoBehaviour
             MovingDirection = new(movingDirection.x, 0f, movingDirection.y),
             LookingDelta = new float2(lookingDelta.x, lookingDelta.y),
             HasJumped = hasJumped,
-            Sprinting = sprinting
+            Sprinting = sprinting,
+            Shooting = shooting,
         });
     }
 }

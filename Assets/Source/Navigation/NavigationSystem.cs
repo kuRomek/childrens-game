@@ -5,8 +5,8 @@ using Unity.Transforms;
 
 partial struct NavigationSystem : ISystem
 {
-    private const float DistanceToleranceSq = 0.01f;
-    private const float RotationSmoothness = 5f;
+    private const float DistanceToleranceSq = 0.5f;
+    private const float RotationSmoothness = 2f;
 
     [BurstCompile]
     public void OnUpdate(ref SystemState state)

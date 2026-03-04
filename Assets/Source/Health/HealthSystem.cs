@@ -8,17 +8,17 @@ partial struct HealthSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        var entityCommandBuffer = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
+        var buffer = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
 
-        ApplyDamage(ref state, ref entityCommandBuffer);
+        ApplyDamage(ref state, ref buffer);
         UpdateHealthBarRotation(ref state);
 
-        entityCommandBuffer.Playback(state.EntityManager);
-        entityCommandBuffer.Dispose();
+        buffer.Playback(state.EntityManager);
+        buffer.Dispose();
     }
 
     [BurstCompile]
-    private void ApplyDamage(ref SystemState state, ref EntityCommandBuffer entityCommandBuffer)
+    private void ApplyDamage(ref SystemState state, ref EntityCommandBuffer buffer)
     {
         foreach (var (damage, entity) in SystemAPI.Query<RefRO<Damage>>().WithEntityAccess())
         {
@@ -27,14 +27,17 @@ partial struct HealthSystem : ISystem
                 var health = SystemAPI.GetComponentRW<Health>(damage.ValueRO.SubjectEntity);
                 health.ValueRW.Current = math.clamp(health.ValueRO.Current - damage.ValueRO.Amount, 0f, health.ValueRO.Max);
 
+                if (health.ValueRO.Current == 0f)
+                    buffer.DestroyEntity(damage.ValueRO.SubjectEntity);
+
                 if (health.ValueRO.BarEntity != Entity.Null)
                 {
                     UpdateBar(ref state, health.ValueRO.BarEntity,
-                        float4x4.Scale(health.ValueRO.Current / health.ValueRO.Max, 0.1f, 1f), ref entityCommandBuffer);
+                        float4x4.Scale(health.ValueRO.Current / health.ValueRO.Max, 0.1f, 1f), ref buffer);
                 }
             }
 
-            entityCommandBuffer.DestroyEntity(entity);
+            buffer.DestroyEntity(entity);
         }
     }
 

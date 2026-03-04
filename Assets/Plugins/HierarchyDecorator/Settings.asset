@@ -53,7 +53,7 @@ MonoBehaviour:
       - fontColour: {r: 0.1764706, g: 0.1764706, b: 0.1764706, a: 1}
         backgroundColour: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
       - fontColour: {r: 1, g: 1, b: 1, a: 1}
-        backgroundColour: {r: 0.1764706, g: 0.1764706, b: 0.1764706, a: 1}
+        backgroundColour: {r: 0.09433961, g: 0.09433961, b: 0.09433961, a: 1}
       style:
         m_Name: Header (Centered)
         m_Normal:
@@ -4258,18 +4258,83 @@ MonoBehaviour:
         isBuiltIn: 0
         script: {fileID: 11500000, guid: f124a2c05791f87a69ae823fc475233f, type: 3}
         hasToggle: 1
-      - displayName: HealthViewAuthoring
-        name: HealthViewAuthoring, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      - displayName: PatrolCircleAuthoring
+        name: PatrolCircleAuthoring, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
         content:
-          m_Text: HealthViewAuthoring
+          m_Text: PatrolCircleAuthoring
           m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
-          m_Tooltip: HealthViewAuthoring
-          m_TextWithWhitespace: "HealthViewAuthoring\u200B"
+          m_Tooltip: PatrolCircleAuthoring
+          m_TextWithWhitespace: "PatrolCircleAuthoring\u200B"
         shown: 0
         excluded: 0
         isBuiltIn: 0
-        script: {fileID: 11500000, guid: d7e05f6a0aecb39e7a20c2cd02a4f765, type: 3}
+        script: {fileID: 11500000, guid: 3dad9a9341b0adde9b922df2477502ef, type: 3}
+        hasToggle: 1
+      - displayName: SpawnerAuthoring
+        name: SpawnerAuthoring, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: SpawnerAuthoring
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: SpawnerAuthoring
+          m_TextWithWhitespace: "SpawnerAuthoring\u200B"
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: b55723bffcd8c7b4e8049891a79fb242, type: 3}
+        hasToggle: 1
+      - displayName: ProBuilderMesh
+        name: UnityEngine.ProBuilder.ProBuilderMesh, Unity.ProBuilder, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ProBuilderMesh
+          m_Image: {fileID: 2800000, guid: 432b3086cebdc438d9d33de3669fb063, type: 2}
+          m_Tooltip: ProBuilderMesh
+          m_TextWithWhitespace: "ProBuilderMesh\u200B"
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 8233d90336aea43098adf6dbabd606a2, type: 3}
+        hasToggle: 1
+      - displayName: ProBuilderShape
+        name: UnityEngine.ProBuilder.Shapes.ProBuilderShape, Unity.ProBuilder, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: ProBuilderShape
+          m_Image: {fileID: 2800000, guid: 554ec42bef6520444a25f7e2d3c26878, type: 3}
+          m_Tooltip: ProBuilderShape
+          m_TextWithWhitespace: "ProBuilderShape\u200B"
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 1ca002da428252441b92f28d83c8a65f, type: 3}
+        hasToggle: 1
+      - displayName: PolyShape
+        name: UnityEngine.ProBuilder.PolyShape, Unity.ProBuilder, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        content:
+          m_Text: PolyShape
+          m_Image: {fileID: 2800000, guid: 554ec42bef6520444a25f7e2d3c26878, type: 3}
+          m_Tooltip: PolyShape
+          m_TextWithWhitespace: "PolyShape\u200B"
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: bb977b126bc1b4f15813dcf9da9bb600, type: 3}
+        hasToggle: 1
+      - displayName: UnitFaceAuthoring
+        name: UnitFaceAuthoring, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        content:
+          m_Text: UnitFaceAuthoring
+          m_Image: {fileID: -8204150473280056172, guid: 0000000000000000d000000000000000, type: 0}
+          m_Tooltip: UnitFaceAuthoring
+          m_TextWithWhitespace: "UnitFaceAuthoring\u200B"
+        shown: 0
+        excluded: 0
+        isBuiltIn: 0
+        script: {fileID: 11500000, guid: 832ff3206b66d2fbd9a4bb8e0c6a490f, type: 3}
         hasToggle: 1
     unityVersion: 6000.3.8f1
-    unityCount: 294
+    unityCount: 301

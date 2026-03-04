@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.cqf.urpoutline": "https://github.com/CristianQiu/Unity-URP-Outline.git",
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
     "com.dbrizov.naughtyattributes": "https://github.com/dbrizov/NaughtyAttributes.git#upm",
     "com.unity.2d.sprite": "1.0.0",
@@ -13,6 +14,7 @@
     "com.unity.inputsystem": "1.18.0",
     "com.unity.multiplayer.center": "1.0.1",
     "com.unity.physics": "1.4.5",
+    "com.unity.probuilder": "6.0.9",
     "com.unity.render-pipelines.universal": "17.3.0",
     "com.unity.sdk.linux-x86_64": "1.0.2",
     "com.unity.test-framework": "1.6.0",

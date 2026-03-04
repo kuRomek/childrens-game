@@ -7,8 +7,6 @@ partial struct SpawningSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        EntityCommandBuffer buffer = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
-
         foreach (var (spawner, ltw) in SystemAPI.Query<RefRW<Spawner>, RefRO<LocalToWorld>>())
         {
             if (spawner.ValueRO.CountLeft == 0)
@@ -18,15 +16,13 @@ partial struct SpawningSystem : ISystem
 
             if (spawner.ValueRO.AccumSeconds >= spawner.ValueRO.Rate)
             {
-                Entity unit = buffer.Instantiate(spawner.ValueRO.EnemyPrefabEntity);
-                buffer.SetComponent(unit, new Patrolling() { PatrolCircleEntity = spawner.ValueRO.PatrolCircle, });
+                Entity unit = state.EntityManager.Instantiate(spawner.ValueRO.EnemyPrefabEntity);
+                SystemAPI.GetComponentRW<Patrolling>(unit).ValueRW.PatrolCircleEntity = spawner.ValueRO.PatrolCircle;
+                SystemAPI.GetComponentRW<LocalTransform>(unit).ValueRW.Position = ltw.ValueRO.Position;
 
                 spawner.ValueRW.CountLeft--;
                 spawner.ValueRW.AccumSeconds = 0f;
             }
         }
-
-        buffer.Playback(state.EntityManager);
-        buffer.Dispose();
     }
 }
