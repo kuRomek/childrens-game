@@ -4,4 +4,5 @@ public struct Projectile : IComponentData
 {
     public float LifeSpan;
     public float Damage;
+    public float DamageForce;
 }

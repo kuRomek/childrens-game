@@ -63,10 +63,12 @@ public class UnitBaker : Baker<UnitAuthoring>
         AddComponent(entity, new Moving()
         {
             FaceEntity = faceEntity,
-            DefaultSpeed = Configs.Test.DefaultSpeed,
+            Speed = Configs.Test.Speed,
             Direction = default,
             LookingDelta = default,
             VerticalRotation = faceAuthoring.transform.localEulerAngles.x,
+            Acceleration = Configs.Test.Acceleration,
+            ControlImpactPortion = 1f,
             Sprinting = false,
             IsGrounded = true,
         });

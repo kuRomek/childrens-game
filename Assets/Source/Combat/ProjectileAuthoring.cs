@@ -24,6 +24,11 @@ public class ProjectileBaker : Baker<ProjectileAuthoring>
     public override void Bake(ProjectileAuthoring authoring)
     {
         Entity entity = GetEntity(TransformUsageFlags.Dynamic);
-        AddComponent(entity, new Projectile() { LifeSpan = 1f });
+        AddComponent(entity, new Projectile()
+        {
+            LifeSpan = 0.7f,
+            Damage = Configs.Test.Damage,
+            DamageForce = Configs.Test.DamageForce,
+        });
     }
 }

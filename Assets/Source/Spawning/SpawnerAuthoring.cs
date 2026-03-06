@@ -16,7 +16,7 @@ public class SpawnerBaker : Baker<SpawnerAuthoring>
         AddComponent(entity, new Spawner()
         {
             Rate = Configs.Spawning.Rate,
-            CountLeft = Configs.Spawning.CountLeft,
+            CountLeft = Configs.Spawning.Count,
             AccumSeconds = 0f,
             PatrolCircle = GetEntity(authoring.PatrolCircle, TransformUsageFlags.WorldSpace),
             EnemyPrefabEntity = GetEntity(authoring.EnemyPrefab, TransformUsageFlags.Dynamic),

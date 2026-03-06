@@ -11,7 +11,12 @@ public class TestConfigScriptable : ScriptableObject
 [Serializable]
 public struct TestConfig : IComponentData
 {
-    [Range(0.1f, 10f)] public float DefaultSpeed;
+    [Range(0.1f, 10f)] public float Speed;
+    [Range(0.1f, 80f)] public float Acceleration;
     [Range(0.1f, 10f)] public float MouseSensitivity;
     [Range(0.1f, 30f)] public float JumpForce;
+    [Range(0.1f, 1000f)] public float Damage;
+    [Range(0.1f, 30f)] public float DamageForce;
+    [Range(0.1f, 100f)] public float GunRate;
+    [Range(0.1f, 5f)] public float SprintingSpeedMultiplier;
 }

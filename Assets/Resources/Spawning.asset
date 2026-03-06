@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpawningConfigScriptable
   <Data>k__BackingField:
     Rate: 3
-    CountLeft: 5
+    Count: 50

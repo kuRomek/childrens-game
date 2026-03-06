@@ -1,7 +1,11 @@
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Mathematics;
+using Unity.Physics;
+using Unity.Physics.GraphicsIntegration;
 using Unity.Transforms;
 
+[UpdateBefore(typeof(TransformSystemGroup))]
 partial struct SpawningSystem : ISystem
 {
     [BurstCompile]
@@ -18,7 +22,19 @@ partial struct SpawningSystem : ISystem
             {
                 Entity unit = state.EntityManager.Instantiate(spawner.ValueRO.EnemyPrefabEntity);
                 SystemAPI.GetComponentRW<Patrolling>(unit).ValueRW.PatrolCircleEntity = spawner.ValueRO.PatrolCircle;
-                SystemAPI.GetComponentRW<LocalTransform>(unit).ValueRW.Position = ltw.ValueRO.Position;
+                var unitLt = SystemAPI.GetComponentRW<LocalTransform>(unit);
+                unitLt.ValueRW.Position = ltw.ValueRO.Position;
+
+                if (SystemAPI.HasComponent<PhysicsGraphicalInterpolationBuffer>(unit))
+                {
+                    var rigidTransform = new RigidTransform(unitLt.ValueRO.ToMatrix());
+
+                    SystemAPI.SetComponent(unit, new PhysicsGraphicalInterpolationBuffer()
+                    {
+                        PreviousTransform = rigidTransform,
+                        PreviousVelocity = SystemAPI.GetComponentRO<PhysicsVelocity>(unit).ValueRO,
+                    });
+                }
 
                 spawner.ValueRW.CountLeft--;
                 spawner.ValueRW.AccumSeconds = 0f;

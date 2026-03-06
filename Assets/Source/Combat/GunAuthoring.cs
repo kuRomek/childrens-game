@@ -15,9 +15,9 @@ public class GunBaker : Baker<GunAuthoring>
         AddComponent(entity, new Gun()
         {
             ProjectilePrefab = GetEntity(authoring.ProjectilePrefab, TransformUsageFlags.Dynamic),
-            Rate = 10f,
+            Rate = Configs.Test.GunRate,
             Cooldown = 0f,
-            Damage = 10f,
+            Damage = Configs.Test.Damage,
         });
     }
 }

@@ -1,6 +1,7 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Physics.Systems;
 
@@ -27,7 +28,9 @@ partial struct ProjectileHittingSystem : ISystem
             LookupHealth = SystemAPI.GetComponentLookup<Health>(),
             LookupProjectile = SystemAPI.GetComponentLookup<Projectile>(),
             LookupCollider = SystemAPI.GetComponentLookup<PhysicsCollider>(),
+            LookupVelocity = SystemAPI.GetComponentLookup<PhysicsVelocity>(),
         };
+
         state.Dependency = hittingEvent.Schedule(SystemAPI.GetSingleton<SimulationSingleton>(), state.Dependency);
     }
 
@@ -39,6 +42,7 @@ partial struct ProjectileHittingSystem : ISystem
         [ReadOnly] public ComponentLookup<Projectile> LookupProjectile;
         [ReadOnly] public ComponentLookup<Health> LookupHealth;
         [ReadOnly] public ComponentLookup<PhysicsCollider> LookupCollider;
+        [ReadOnly] public ComponentLookup<PhysicsVelocity> LookupVelocity;
 
         public void Execute(TriggerEvent triggerEvent)
         {
@@ -58,11 +62,15 @@ partial struct ProjectileHittingSystem : ISystem
             if (damageTakerEntity == Entity.Null || projectileEntity == Entity.Null)
                 return;
 
+            LookupVelocity.TryGetComponent(projectileEntity, out PhysicsVelocity velocity);
+
             Entity damageEntity = Buffer.CreateEntity();
             Buffer.AddComponent(damageEntity, new Damage()
             {
                 Amount = projectile.ValueRO.Damage,
                 SubjectEntity = damageTakerEntity,
+                Force = projectile.ValueRO.DamageForce,
+                ForceDirection = math.normalize(velocity.Linear) + new float3(0f, 0.5f, 0f),
             });
         }
 

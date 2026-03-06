@@ -7,7 +7,9 @@ public struct Moving : IComponentData
     public float2 Direction;
     public float2 LookingDelta;
     public float VerticalRotation;
-    public float DefaultSpeed;
+    public float Speed;
+    public float Acceleration;
+    public float ControlImpactPortion;
     public bool Sprinting;
     public bool IsGrounded;
 }

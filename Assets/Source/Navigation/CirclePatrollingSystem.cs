@@ -43,7 +43,8 @@ partial struct CirclePatrollingSystem : ISystem
         {
             positions.Add(
                 patrolCircle.ValueRO.Radius *
-                new float3(math.cos(i * circlePart), patrolCircleLtw.ValueRO.Position.y, math.sin(i * circlePart)));
+                new float3(math.cos(i * circlePart), 0f, math.sin(i * circlePart)) +
+                patrolCircleLtw.ValueRO.Position);
         }
 
         return positions;

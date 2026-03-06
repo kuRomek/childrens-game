@@ -1,7 +1,9 @@
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Physics;
 using Unity.Transforms;
+using UnityEngine;
 
 partial struct HealthSystem : ISystem
 {
@@ -26,6 +28,19 @@ partial struct HealthSystem : ISystem
             {
                 var health = SystemAPI.GetComponentRW<Health>(damage.ValueRO.SubjectEntity);
                 health.ValueRW.Current = math.clamp(health.ValueRO.Current - damage.ValueRO.Amount, 0f, health.ValueRO.Max);
+
+                if (SystemAPI.HasComponent<PhysicsVelocity>(damage.ValueRO.SubjectEntity) &&
+                    SystemAPI.HasComponent<PhysicsMass>(damage.ValueRO.SubjectEntity))
+                {
+                    var velocity = SystemAPI.GetComponentRW<PhysicsVelocity>(damage.ValueRO.SubjectEntity);
+                    var mass = SystemAPI.GetComponentRW<PhysicsMass>(damage.ValueRO.SubjectEntity);
+
+                    velocity.ValueRW.Linear += mass.ValueRO.InverseMass * damage.ValueRO.Force *
+                        damage.ValueRO.ForceDirection;
+
+                    if (SystemAPI.HasComponent<Moving>(damage.ValueRO.SubjectEntity))
+                        SystemAPI.GetComponentRW<Moving>(damage.ValueRO.SubjectEntity).ValueRW.ControlImpactPortion = 0f;
+                }
 
                 if (health.ValueRO.Current == 0f)
                     buffer.DestroyEntity(damage.ValueRO.SubjectEntity);

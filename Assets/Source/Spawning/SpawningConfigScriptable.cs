@@ -12,5 +12,5 @@ public class SpawningConfigScriptable : ScriptableObject
 public struct SpawningConfig : IComponentData
 {
     [Range(0f, 10f)] public float Rate;
-    [Range(0, 10)] public int CountLeft;
+    [Range(0, 100)] public int Count;
 }
