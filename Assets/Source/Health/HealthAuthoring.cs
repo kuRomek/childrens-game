@@ -33,8 +33,8 @@ public class HealthAuthoring : MonoBehaviour
         {
             DestroyImmediate(HealthFillingObject.gameObject);
         }
-#endif
     }
+#endif
 }
 
 public class HealthBaker : Baker<HealthAuthoring>

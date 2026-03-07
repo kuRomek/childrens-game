@@ -50,6 +50,14 @@ partial struct ShootingSystem : ISystem
                     });
                 }
 
+                Entity soundEffectEntity = buffer.CreateEntity();
+                buffer.AddComponent(soundEffectEntity, new SoundEffect()
+                {
+                    SoundKey = AudioKeys.Sound.LaserGunShoot,
+                    PitchRange = new(0.5f, 1.5f),
+                    Position = gunLtw.ValueRO.Position,
+                });
+
                 gun.ValueRW.Cooldown = 1f / gun.ValueRO.Rate;
             }
 

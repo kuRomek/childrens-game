@@ -6,17 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(PhysicsShapeAuthoring), typeof(PhysicsBodyAuthoring))]
 public class ProjectileAuthoring : MonoBehaviour
 {
-    private void OnValidate()
-    {
-        EditorApplication.delayCall += InitializeComponents;
-    }
-
-    private void InitializeComponents()
-    {
-        EditorApplication.delayCall -= InitializeComponents;
-
-
-    }
 }
 
 public class ProjectileBaker : Baker<ProjectileAuthoring>

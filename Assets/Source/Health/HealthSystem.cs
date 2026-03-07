@@ -59,25 +59,28 @@ partial struct HealthSystem : ISystem
     [BurstCompile]
     private void UpdateHealthBarRotation(ref SystemState state)
     {
-        Entity playerEntity = SystemAPI.GetSingleton<Player>().Entity;
-        RefRO<LocalToWorld> faceTransform = SystemAPI.GetComponentRO<LocalToWorld>(
-            SystemAPI.GetComponentRO<Moving>(playerEntity).ValueRO.FaceEntity);
-
-        foreach (var (health, parentLtw) in SystemAPI.Query<RefRO<Health>, RefRO<LocalToWorld>>())
+        if (SystemAPI.TryGetSingleton(out Player player))
         {
-            Entity barEntity = health.ValueRO.BarEntity;
+            Entity playerEntity = player.Entity;
+            RefRO<LocalToWorld> faceTransform = SystemAPI.GetComponentRO<LocalToWorld>(
+                SystemAPI.GetComponentRO<Moving>(playerEntity).ValueRO.FaceEntity);
 
-            if (barEntity != Entity.Null)
+            foreach (var (health, parentLtw) in SystemAPI.Query<RefRO<Health>, RefRO<LocalToWorld>>())
             {
-                RefRW<LocalTransform> barLocalTransform = SystemAPI.GetComponentRW<LocalTransform>(barEntity);
-                RefRO<LocalToWorld> barLtw = SystemAPI.GetComponentRO<LocalToWorld>(barEntity);
+                Entity barEntity = health.ValueRO.BarEntity;
 
-                float3 dir = math.normalizesafe(faceTransform.ValueRO.Position - barLtw.ValueRO.Position);
+                if (barEntity != Entity.Null)
+                {
+                    RefRW<LocalTransform> barLocalTransform = SystemAPI.GetComponentRW<LocalTransform>(barEntity);
+                    RefRO<LocalToWorld> barLtw = SystemAPI.GetComponentRO<LocalToWorld>(barEntity);
 
-                quaternion worldRot = quaternion.LookRotationSafe(dir, math.up());
+                    float3 dir = math.normalizesafe(faceTransform.ValueRO.Position - barLtw.ValueRO.Position);
 
-                barLocalTransform.ValueRW.Rotation =
-                    math.mul(math.inverse(parentLtw.ValueRO.Rotation), worldRot);
+                    quaternion worldRot = quaternion.LookRotationSafe(dir, math.up());
+
+                    barLocalTransform.ValueRW.Rotation =
+                        math.mul(math.inverse(parentLtw.ValueRO.Rotation), worldRot);
+                }
             }
         }
     }

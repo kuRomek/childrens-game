@@ -4,6 +4,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Physics.Systems;
+using Unity.Transforms;
 
 [UpdateInGroup(typeof(PhysicsSystemGroup))]
 [UpdateAfter(typeof(PhysicsSimulationGroup))]
@@ -29,6 +30,7 @@ partial struct ProjectileHittingSystem : ISystem
             LookupProjectile = SystemAPI.GetComponentLookup<Projectile>(),
             LookupCollider = SystemAPI.GetComponentLookup<PhysicsCollider>(),
             LookupVelocity = SystemAPI.GetComponentLookup<PhysicsVelocity>(),
+            LookupLtw = SystemAPI.GetComponentLookup<LocalToWorld>(),
         };
 
         state.Dependency = hittingEvent.Schedule(SystemAPI.GetSingleton<SimulationSingleton>(), state.Dependency);
@@ -43,6 +45,7 @@ partial struct ProjectileHittingSystem : ISystem
         [ReadOnly] public ComponentLookup<Health> LookupHealth;
         [ReadOnly] public ComponentLookup<PhysicsCollider> LookupCollider;
         [ReadOnly] public ComponentLookup<PhysicsVelocity> LookupVelocity;
+        [ReadOnly] public ComponentLookup<LocalToWorld> LookupLtw;
 
         public void Execute(TriggerEvent triggerEvent)
         {
@@ -56,8 +59,15 @@ partial struct ProjectileHittingSystem : ISystem
             if (projectileEntity != null)
                 LookupProjectile.TryGetRefRO(projectileEntity, out projectile);
 
-            if (projectileEntity != Entity.Null)
-                TryDestroyProjectile(triggerEvent, projectileEntity);
+            if (projectileEntity != Entity.Null && TryDestroyProjectile(triggerEvent, projectileEntity))
+            {
+                Buffer.AddComponent(Buffer.CreateEntity(), new SoundEffect()
+                {
+                    SoundKey = AudioKeys.Sound.LaserGunHit,
+                    PitchRange = new(0.9f, 1.1f),
+                    Position = LookupLtw.GetRefRO(projectileEntity).ValueRO.Position,
+                });
+            }
 
             if (damageTakerEntity == Entity.Null || projectileEntity == Entity.Null)
                 return;
@@ -74,18 +84,22 @@ partial struct ProjectileHittingSystem : ISystem
             });
         }
 
-        private void TryDestroyProjectile(TriggerEvent triggerEvent, Entity projectileEntity)
+        private bool TryDestroyProjectile(TriggerEvent triggerEvent, Entity projectileEntity)
         {
             if (projectileEntity == triggerEvent.EntityA &&
-                                HasCollider(triggerEvent.EntityB, triggerEvent.ColliderKeyB, LookupCollider))
+                HasCollider(triggerEvent.EntityB, triggerEvent.ColliderKeyB, LookupCollider))
             {
                 Buffer.DestroyEntity(triggerEvent.EntityA);
+                return true;
             }
             else if (projectileEntity == triggerEvent.EntityB &&
                 HasCollider(triggerEvent.EntityA, triggerEvent.ColliderKeyA, LookupCollider))
             {
                 Buffer.DestroyEntity(triggerEvent.EntityB);
+                return true;
             }
+
+            return false;
         }
 
         private bool HasCollider(Entity entity, ColliderKey colliderKey, ComponentLookup<PhysicsCollider> colliderLookup)
