@@ -9,6 +9,8 @@ partial struct PlayerInputHandleSystem : ISystem
     {
         state.RequireForUpdate<Player>();
         state.RequireForUpdate<Moving>();
+
+        state.RequireForUpdate<PlayerInput>();
     }
 
     [BurstCompile]

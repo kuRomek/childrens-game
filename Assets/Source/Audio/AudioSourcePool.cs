@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioSourcePool : MonoBehaviour
 {
     [SerializeField] private int _initialSourcesCount = 16;
+    [SerializeField] private AudioMixerGroup _audioMixerGroup;
 
     private List<AudioSource> _availableSources;
 
@@ -40,7 +42,9 @@ public class AudioSourcePool : MonoBehaviour
     private AudioSource CreateAudioSource()
     {
         var go = new GameObject("AudioSource");
+        AudioSource audioSource = go.AddComponent<AudioSource>();
         go.transform.SetParent(transform);
-        return go.AddComponent<AudioSource>();
+        audioSource.outputAudioMixerGroup = _audioMixerGroup;
+        return audioSource;
     }
 }

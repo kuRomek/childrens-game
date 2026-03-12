@@ -16,6 +16,8 @@ partial struct GroundDetectionSystem : ISystem
     {
         _previousFrame = new(128, Allocator.Persistent);
         _currentFrame = new(128, Allocator.Persistent);
+
+        state.RequireForUpdate<SimulationSingleton>();
     }
 
     [BurstCompile]

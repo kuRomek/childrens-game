@@ -14,7 +14,7 @@ partial struct ShootingSystem : ISystem
     {
         var buffer = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
 
-        foreach (var attacker in SystemAPI.Query<RefRW<Attacker>>())
+        foreach (var (attacker, attackerEntity) in SystemAPI.Query<RefRW<Attacker>>().WithEntityAccess())
         {
             if (SystemAPI.HasComponent<Gun>(attacker.ValueRO.WeaponEntity) == false)
                 continue;
@@ -38,6 +38,15 @@ partial struct ShootingSystem : ISystem
 
                 RefRW<Projectile> projectile = SystemAPI.GetComponentRW<Projectile>(projectileEntity);
                 projectile.ValueRW.Damage = gun.ValueRO.Damage;
+
+                RefRW<PhysicsCollider> collider = SystemAPI.GetComponentRW<PhysicsCollider>(projectileEntity);
+                CollisionFilter collisionFilter = collider.ValueRO.Value.Value.GetCollisionFilter();
+                collisionFilter.CollidesWith =
+                    SystemAPI.HasComponent<Player>(attackerEntity) ?
+                    Utils.PhysicsLayers.Enemy :
+                    Utils.PhysicsLayers.Player;
+
+                collider.ValueRW.Value.Value.SetCollisionFilter(collisionFilter);
 
                 if (SystemAPI.HasComponent<PhysicsGraphicalInterpolationBuffer>(projectileEntity))
                 {

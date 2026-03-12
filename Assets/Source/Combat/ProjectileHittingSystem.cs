@@ -1,3 +1,4 @@
+using System;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
@@ -14,6 +15,7 @@ partial struct ProjectileHittingSystem : ISystem
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<SimulationSingleton>();
+        state.RequireForUpdate<EndFixedStepSimulationEntityCommandBufferSystem.Singleton>();
     }
 
     [BurstCompile]
@@ -84,6 +86,19 @@ partial struct ProjectileHittingSystem : ISystem
             });
         }
 
+        private void ExtractEntities(ref TriggerEvent triggerEvent, ref Entity damageTakerEntity, ref Entity projectileEntity)
+        {
+            if (LookupProjectile.HasComponent(triggerEvent.EntityA))
+                projectileEntity = triggerEvent.EntityA;
+            else if (LookupProjectile.HasComponent(triggerEvent.EntityB))
+                projectileEntity = triggerEvent.EntityB;
+
+            if (LookupHealth.HasComponent(triggerEvent.EntityA))
+                damageTakerEntity = triggerEvent.EntityA;
+            else if (LookupHealth.HasComponent(triggerEvent.EntityB))
+                damageTakerEntity = triggerEvent.EntityB;
+        }
+
         private bool TryDestroyProjectile(TriggerEvent triggerEvent, Entity projectileEntity)
         {
             if (projectileEntity == triggerEvent.EntityA &&
@@ -108,19 +123,6 @@ partial struct ProjectileHittingSystem : ISystem
                 return false;
 
             return colliderLookup[entity].Value.Value.GetCollisionResponse(colliderKey) == CollisionResponsePolicy.Collide;
-        }
-
-        private void ExtractEntities(ref TriggerEvent triggerEvent, ref Entity damageTakerEntity, ref Entity projectileEntity)
-        {
-            if (LookupProjectile.HasComponent(triggerEvent.EntityA))
-                projectileEntity = triggerEvent.EntityA;
-            else if (LookupProjectile.HasComponent(triggerEvent.EntityB))
-                projectileEntity = triggerEvent.EntityB;
-
-            if (LookupHealth.HasComponent(triggerEvent.EntityA))
-                damageTakerEntity = triggerEvent.EntityA;
-            else if (LookupHealth.HasComponent(triggerEvent.EntityB))
-                damageTakerEntity = triggerEvent.EntityB;
         }
     }
 }

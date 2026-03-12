@@ -1,9 +1,8 @@
 using NaughtyAttributes;
 using Unity.Entities;
-using Unity.Mathematics;
 using UnityEngine;
 
-public class DebugVisual : MonoBehaviour
+public class DebugVisual : Installer
 {
     [BoxGroup("DamageDebug")]
     [SerializeField, Range(1f, 300f)] private float _damageAmount;
@@ -12,6 +11,11 @@ public class DebugVisual : MonoBehaviour
     [SerializeField] private int _entityId;
 
     [ReadOnly, SerializeField] private bool _healthBarsShown;
+
+    public override void Install()
+    {
+
+    }
 
     [Button]
     private void ToggleHealthBars()

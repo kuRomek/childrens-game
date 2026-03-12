@@ -1,9 +1,9 @@
 using Unity.Entities;
 using UnityEngine;
 
-public class ConfigsInitializer : MonoBehaviour
+public class ConfigsInitializer : Installer
 {
-    private void Awake()
+    public override void Install()
     {
         EntityManager em = World.DefaultGameObjectInjectionWorld.EntityManager;
 

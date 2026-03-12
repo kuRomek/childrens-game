@@ -1,3 +1,4 @@
+using System;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics.Authoring;
@@ -70,7 +71,7 @@ public class UnitBaker : Baker<UnitAuthoring>
             Acceleration = Configs.Test.Acceleration,
             ControlImpactPortion = 1f,
             Sprinting = false,
-            IsGrounded = true,
+            IsGrounded = false,
         });
     }
 }

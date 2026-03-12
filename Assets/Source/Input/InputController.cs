@@ -2,27 +2,18 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class InputController : MonoBehaviour
+public class InputController : Installer
 {
     private PlayerInputActions _input;
     private Entity _inputEntity;
 
-    private void Awake()
+    public override void Install()
     {
         var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         _inputEntity = entityManager.CreateSingleton<PlayerInput>();
 
         _input = new();
-    }
-
-    private void OnEnable()
-    {
         _input.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _input.Disable();
     }
 
     private void Update()
@@ -43,5 +34,10 @@ public class InputController : MonoBehaviour
             Sprinting = sprinting,
             Shooting = shooting,
         });
+    }
+
+    private void OnDestroy()
+    {
+        _input.Disable();
     }
 }

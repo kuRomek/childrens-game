@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class AudioPlayer : MonoBehaviour
+public class AudioPlayer : Installer
 {
     private const string SoundsPath = "Sounds";
 
@@ -14,7 +14,7 @@ public class AudioPlayer : MonoBehaviour
     private Dictionary<AudioKeys.Sound, AudioClip> _sounds = new();
     private Dictionary<AudioKeys.Music, AudioClip> _music = new();
 
-    private void Awake()
+    public override void Install()
     {
         if (Instance != null)
             Destroy(Instance.gameObject);
