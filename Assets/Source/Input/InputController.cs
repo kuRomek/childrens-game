@@ -23,6 +23,7 @@ public class InputController : Installer
         bool hasJumped = _input.Player.Jump.WasPressedThisFrame();
         bool sprinting = _input.Player.Sprint.IsPressed();
         bool shooting = _input.Player.Attack.IsPressed();
+        bool hasInteracted = _input.Player.Interact.WasPressedThisFrame();
 
         var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
@@ -33,6 +34,7 @@ public class InputController : Installer
             HasJumped = hasJumped,
             Sprinting = sprinting,
             Shooting = shooting,
+            HasInteracted = hasInteracted,
         });
     }
 

@@ -20,4 +20,4 @@ MonoBehaviour:
     Damage: 10
     DamageForce: 3
     GunRate: 8
-    SprintingSpeedMultiplier: 3
+    SprintingSpeedMultiplier: 2

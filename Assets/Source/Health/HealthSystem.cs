@@ -26,6 +26,10 @@ partial struct HealthSystem : ISystem
             if (SystemAPI.HasComponent<Health>(damage.ValueRO.SubjectEntity))
             {
                 var health = SystemAPI.GetComponentRW<Health>(damage.ValueRO.SubjectEntity);
+
+                if (health.ValueRO.IsDead)
+                    continue;
+
                 health.ValueRW.Current = math.clamp(health.ValueRO.Current - damage.ValueRO.Amount, 0f, health.ValueRO.Max);
 
                 if (SystemAPI.HasComponent<PhysicsVelocity>(damage.ValueRO.SubjectEntity) &&
@@ -41,8 +45,13 @@ partial struct HealthSystem : ISystem
                         SystemAPI.GetComponentRW<Moving>(damage.ValueRO.SubjectEntity).ValueRW.ControlImpactPortion = 0f;
                 }
 
-                if (health.ValueRO.Current == 0f)
+                if (health.ValueRO.IsDead)
+                {
+                    if (SystemAPI.HasComponent<Player>(damage.ValueRO.SubjectEntity))
+                        buffer.AddComponent(buffer.CreateEntity(), new PlayerDeath() { Delay = 3f });
+
                     buffer.DestroyEntity(damage.ValueRO.SubjectEntity);
+                }
 
                 if (health.ValueRO.BarEntity != Entity.Null)
                 {

@@ -281,6 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb41d0d282953a72afb4cef292115d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainCamera
+  _camera: {fileID: 433523283142222782}
 --- !u!1001 &8740680477968449518
 PrefabInstance:
   m_ObjectHideFlags: 0

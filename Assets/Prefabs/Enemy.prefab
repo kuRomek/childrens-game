@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 8859165095616068128}
   - component: {fileID: 2461763489801121850}
   - component: {fileID: 3466346151754907244}
+  - component: {fileID: 2452950431770588032}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -180,7 +181,7 @@ MonoBehaviour:
     m_Template: {fileID: 0}
     m_CollisionResponse:
       m_Override: 0
-      m_Value: 0
+      m_Value: 1
     m_DetailedStaticMeshCollision:
       m_Override: 0
       m_Value:
@@ -368,6 +369,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAuthoring
   <PatrolCircleAuthoring>k__BackingField: {fileID: 0}
+--- !u!114 &2452950431770588032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3959420107004056348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b028c9c743d005d4498d353ff4bcc6a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackerAuthoring
+  <WeaponGameObject>k__BackingField: {fileID: 0}
 --- !u!1 &4492551548945938526
 GameObject:
   m_ObjectHideFlags: 0

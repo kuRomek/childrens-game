@@ -117,7 +117,7 @@ MonoBehaviour:
     m_Value: {r: 1, g: 0, b: 0.08064842, a: 1}
   color2:
     m_OverrideState: 1
-    m_Value: {r: 0.3, g: 0.75, b: 1, a: 1}
+    m_Value: {r: 0.22068405, g: 1, b: 0, a: 1}
   color3:
     m_OverrideState: 1
     m_Value: {r: 0.3, g: 0.75, b: 1, a: 1}
@@ -140,8 +140,8 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 0.209
   fillAlpha2:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 0.116
   fillAlpha3:
     m_OverrideState: 0
     m_Value: 0

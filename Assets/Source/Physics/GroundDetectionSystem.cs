@@ -8,8 +8,8 @@ using Unity.Physics.Systems;
 [UpdateAfter(typeof(PhysicsSimulationGroup))]
 partial struct GroundDetectionSystem : ISystem
 {
-    private NativeParallelHashSet<GroundInteractionPair> _previousFrame;
-    private NativeParallelHashSet<GroundInteractionPair> _currentFrame;
+    private NativeParallelHashSet<EntityOrderedPair> _previousFrame;
+    private NativeParallelHashSet<EntityOrderedPair> _currentFrame;
 
     [BurstCompile]
     public void OnCreate(ref SystemState state)
@@ -37,13 +37,17 @@ partial struct GroundDetectionSystem : ISystem
         state.Dependency = groundTouching.Schedule(simulation, state.Dependency);
         state.Dependency.Complete();
 
-        foreach (GroundInteractionPair groundInteractionPair in _currentFrame)
-            SystemAPI.GetComponentRW<Moving>(groundInteractionPair.JumperEntity).ValueRW.IsGrounded = true;
+        foreach (EntityOrderedPair groundInteractionPair in _currentFrame)
+            if (SystemAPI.Exists(groundInteractionPair.Entity1))
+                SystemAPI.GetComponentRW<Moving>(groundInteractionPair.Entity1).ValueRW.IsGrounded = true;
 
-        foreach (GroundInteractionPair groundInteractionPair in _previousFrame)
+        foreach (EntityOrderedPair groundInteractionPair in _previousFrame)
         {
-            SystemAPI.GetComponentRW<Moving>(groundInteractionPair.JumperEntity).ValueRW.IsGrounded =
-                _currentFrame.Contains(groundInteractionPair);
+            if (SystemAPI.Exists(groundInteractionPair.Entity1))
+            {
+                SystemAPI.GetComponentRW<Moving>(groundInteractionPair.Entity1).ValueRW.IsGrounded =
+                    _currentFrame.Contains(groundInteractionPair);
+            }
         }
 
         (_previousFrame, _currentFrame) = (_currentFrame, _previousFrame);
@@ -62,7 +66,7 @@ partial struct GroundDetectionSystem : ISystem
     [BurstCompile]
     public partial struct GroundTouchingEvent : ITriggerEventsJob
     {
-        public NativeParallelHashSet<GroundInteractionPair>.ParallelWriter CurrentFrame;
+        public NativeParallelHashSet<EntityOrderedPair>.ParallelWriter CurrentFrame;
 
         [ReadOnly] public ComponentLookup<Ground> LookupGround;
         [ReadOnly] public ComponentLookup<Jumper> LookupJumper;
@@ -84,7 +88,7 @@ partial struct GroundDetectionSystem : ISystem
             }
 
             if (jumperEntity != Entity.Null && groundEntity != Entity.Null)
-                CurrentFrame.Add(new GroundInteractionPair() { JumperEntity = jumperEntity, GroundEntity = groundEntity });
+                CurrentFrame.Add(new EntityOrderedPair() { Entity1 = jumperEntity, Entity2 = groundEntity });
         }
     }
 }

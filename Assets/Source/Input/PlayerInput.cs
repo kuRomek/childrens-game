@@ -8,4 +8,5 @@ public struct PlayerInput : IComponentData
     public bool HasJumped;
     public bool Sprinting;
     public bool Shooting;
+    public bool HasInteracted;
 }
