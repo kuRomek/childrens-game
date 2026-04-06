@@ -64,9 +64,10 @@ partial struct TouchHittingSystem : ISystem
                 buffer.AddComponent(buffer.CreateEntity(), new Damage()
                 {
                     Amount = testConfig.ValueRO.Damage,
-                    SubjectEntity = pair.Entity1,
+                    DamageTakerEntity = pair.Entity1,
                     Force = testConfig.ValueRO.DamageForce,
                     ForceDirection = math.normalize(velocity.ValueRO.Linear) + new float3(0f, 0.5f, 0f),
+                    DamageDealerEntity = pair.Entity2,
                 });
             }
         }

@@ -1,7 +1,8 @@
 ﻿<Solution>
   <Project Path="Zenject.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Zenject-Editor.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Unity.Physics.Custom.csproj" />
   <Project Path="Unity.Physics.Custom.Editor.csproj" />
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
 </Solution>

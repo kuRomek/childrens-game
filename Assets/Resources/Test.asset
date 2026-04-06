@@ -21,3 +21,5 @@ MonoBehaviour:
     DamageForce: 3
     GunRate: 8
     SprintingSpeedMultiplier: 2
+    EngagementFadeSpeed: 10
+    EngagementBurstForKilledEnemy: 10

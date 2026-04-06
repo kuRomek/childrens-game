@@ -76,13 +76,13 @@ partial struct ProjectileHittingSystem : ISystem
 
             LookupVelocity.TryGetComponent(projectileEntity, out PhysicsVelocity velocity);
 
-            Entity damageEntity = Buffer.CreateEntity();
-            Buffer.AddComponent(damageEntity, new Damage()
+            Buffer.AddComponent(Buffer.CreateEntity(), new Damage()
             {
                 Amount = projectile.ValueRO.Damage,
-                SubjectEntity = damageTakerEntity,
+                DamageTakerEntity = damageTakerEntity,
                 Force = projectile.ValueRO.DamageForce,
                 ForceDirection = math.normalize(velocity.Linear) + new float3(0f, 0.5f, 0f),
+                DamageDealerEntity = projectile.ValueRO.ShooterEntity,
             });
         }
 

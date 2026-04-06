@@ -4,13 +4,25 @@ using UnityEngine;
 
 public class InputController : Installer
 {
+    private static InputController _instance;
+
+    private EntityManager _em;
     private PlayerInputActions _input;
     private Entity _inputEntity;
+    private bool _isGamePaused;
 
     public override void Install()
     {
-        var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        _inputEntity = entityManager.CreateSingleton<PlayerInput>();
+        if (_instance != null && _instance != this)
+        {
+            transform.SetParent(_instance.transform.parent);
+            Destroy(_instance.gameObject);
+        }
+
+        _instance = this;
+
+        _em = World.DefaultGameObjectInjectionWorld.EntityManager;
+        _inputEntity = _em.CreateSingleton<PlayerInput>();
 
         _input = new();
         _input.Enable();
@@ -18,6 +30,9 @@ public class InputController : Installer
 
     private void Update()
     {
+        if (_isGamePaused)
+            return;
+
         float2 movingDirection = _input.Player.Move.ReadValue<Vector2>();
         float2 lookingDelta = _input.Player.Look.ReadValue<Vector2>();
         bool hasJumped = _input.Player.Jump.WasPressedThisFrame();
@@ -25,9 +40,7 @@ public class InputController : Installer
         bool shooting = _input.Player.Attack.IsPressed();
         bool hasInteracted = _input.Player.Interact.WasPressedThisFrame();
 
-        var entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-
-        entityManager.SetComponentData(_inputEntity, new PlayerInput()
+        _em.SetComponentData(_inputEntity, new PlayerInput()
         {
             MovingDirection = new(movingDirection.x, 0f, movingDirection.y),
             LookingDelta = new float2(lookingDelta.x, lookingDelta.y),
@@ -38,8 +51,33 @@ public class InputController : Installer
         });
     }
 
+    private void Start()
+    {
+        Enable();
+    }
+
     private void OnDestroy()
     {
         _input.Disable();
+    }
+
+    public static void Enable()
+    {
+        _instance._isGamePaused = false;
+    }
+
+    public static void Disable()
+    {
+        _instance._em.SetComponentData(_instance._inputEntity, new PlayerInput()
+        {
+            MovingDirection = default,
+            LookingDelta = default,
+            HasJumped = false,
+            Sprinting = false,
+            Shooting = false,
+            HasInteracted = false,
+        });
+
+        _instance._isGamePaused = true;
     }
 }

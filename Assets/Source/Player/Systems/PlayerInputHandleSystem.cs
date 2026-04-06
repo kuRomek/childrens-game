@@ -9,7 +9,6 @@ partial struct PlayerInputHandleSystem : ISystem
     {
         state.RequireForUpdate<Player>();
         state.RequireForUpdate<Moving>();
-
         state.RequireForUpdate<PlayerInput>();
     }
 
@@ -33,5 +32,12 @@ partial struct PlayerInputHandleSystem : ISystem
 
         playerJumper.ValueRW.ReadyToJump |= input.HasJumped && playerMoving.ValueRO.IsGrounded;
         playerAttacker.ValueRW.Attacking = input.Shooting;
+    }
+
+    [BurstCompile]
+    public void OnDestroy(ref SystemState state)
+    {
+        if (SystemAPI.TryGetSingletonEntity<PlayerInput>(out Entity entity))
+            state.EntityManager.DestroyEntity(entity);
     }
 }

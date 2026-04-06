@@ -1,6 +1,6 @@
 using Unity.Entities;
 
-public struct PlayerDeath : IComponentData
+public struct RunEnd : IComponentData
 {
     public float Delay;
 }

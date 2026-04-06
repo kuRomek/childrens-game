@@ -38,6 +38,7 @@ partial struct ShootingSystem : ISystem
 
                 RefRW<Projectile> projectile = SystemAPI.GetComponentRW<Projectile>(projectileEntity);
                 projectile.ValueRW.Damage = gun.ValueRO.Damage;
+                projectile.ValueRW.ShooterEntity = attackerEntity;
 
                 RefRW<PhysicsCollider> collider = SystemAPI.GetComponentRW<PhysicsCollider>(projectileEntity);
                 CollisionFilter collisionFilter = collider.ValueRO.Value.Value.GetCollisionFilter();

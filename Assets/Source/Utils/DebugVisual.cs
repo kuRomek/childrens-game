@@ -35,7 +35,7 @@ public class DebugVisual : Installer
             if (entity.Index == _entityId)
             {
                 Entity damageEntity = em.CreateEntity(typeof(Damage));
-                em.SetComponentData(damageEntity, new Damage() { Amount = _damageAmount, SubjectEntity = entity });
+                em.SetComponentData(damageEntity, new Damage() { Amount = _damageAmount, DamageTakerEntity = entity });
             }
         }
 

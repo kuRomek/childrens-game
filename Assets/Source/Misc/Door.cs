@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using NaughtyAttributes;
+using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,6 +17,7 @@ public class Door : MonoBehaviour
 
     public void Interact()
     {
+        World.DefaultGameObjectInjectionWorld.EntityManager.CreateSingleton<RunStart>();
         SceneManager.LoadScene(_sceneId);
     }
 }

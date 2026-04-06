@@ -19,4 +19,6 @@ public struct TestConfig : IComponentData
     [Range(0.1f, 30f)] public float DamageForce;
     [Range(0.1f, 100f)] public float GunRate;
     [Range(0.1f, 5f)] public float SprintingSpeedMultiplier;
+    [Range(0.01f, 100f)] public float EngagementFadeSpeed;
+    [Range(0.01f, 100f)] public float EngagementBurstForKilledEnemy;
 }
